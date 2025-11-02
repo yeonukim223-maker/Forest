@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>숲 속 모험</title>
+<style>
+body { font-family: Arial, sans-serif; background-color: #f0f0f0; padding: 20px; }
+#game { background-color: #fff; padding: 20px; border-radius: 10px; max-width: 600px; margin: auto; }
+button { display: block; margin: 10px 0; padding: 10px; font-size: 16px; }
+</style>
+</head>
+<body>
+<div id="game">
+<h2>숲 속 모험</h2>
+<p id="scene-text"></p>
+<div id="choices"></div>
+</div>
+
+<script>
+const gameData = {
+    "Start": {
+        text: "당신은 어두운 숲 속 길을 걷고 있습니다. 왼쪽으로 갈까요, 오른쪽으로 갈까요?",
+        choices: {
+            "왼쪽": "Wolf",
+            "오른쪽": "SafePath"
+        }
+    },
+    "Wolf": {
+        text: "늑대와 마주쳤습니다. 게임 오버!",
+        choices: {
+            "처음으로 돌아가기": "Start"
+        }
+    },
+    "SafePath": {
+        text: "작은 마을에 도착했습니다. 당신은 안전합니다. 승리!",
+        choices: {
+            "처음으로 돌아가기": "Start"
+        }
+    }
+};
+
+let currentScene = "Start";
+
+function renderScene() {
+    const scene = gameData[currentScene];
+    document.getElementById("scene-text").innerText = scene.text;
+    const choicesDiv = document.getElementById("choices");
+    choicesDiv.innerHTML = "";
+    for (let choice in scene.choices) {
+        const btn = document.createElement("button");
+        btn.innerText = choice;
+        btn.onclick = () => {
+            currentScene = scene.choices[choice];
+            renderScene();
+        };
+        choicesDiv.appendChild(btn);
+    }
+}
+
+renderScene();
+</script>
+</body>
+</html>
